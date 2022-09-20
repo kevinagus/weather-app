@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Handle Cities</ion-title>
+    <ion-button [routerLink]="['/home']">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="locationForm" (ngSubmit)="submitForm()" novalidate>
+    <ion-item lines="full">
+      <ion-label position="floating">Enter City</ion-label>
+      <ion-input formControlName="city" type="text" required></ion-input>
+    </ion-item>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.city.errors?.required">
+      City is required.
+    </span>
+    <span class="error ion-padding" *ngIf="isSubmitted && errorControl.city.errors?.pattern">
+      Please provide valid city.
+    </span>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">Add</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+  <!-- TODO favourites list component -->
+</ion-content>
