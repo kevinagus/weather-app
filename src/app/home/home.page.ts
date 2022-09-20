@@ -8,19 +8,27 @@ import { WeatherService } from '../services/weather.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   response: WeatherData;
 
-  constructor(private weatherAPI: WeatherService) { }
+  constructor(private weatherAPI: WeatherService) {}
 
   ngOnInit() {
     this.getLocationWeather();
   }
 
-  getLocationWeather(){
-    this.weatherAPI.getWeatherData().subscribe(res =>{
-      this.response = res;
-    });
+  getLocationWeather() {
+    this.weatherAPI.getWeatherData().subscribe(
+      (res) => {
+        this.response = res;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
+  doRefresh(event) {
+    this.getLocationWeather();
+    event.target.complete();
+  }
 }
