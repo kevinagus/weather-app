@@ -1,20 +1,31 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> My Weather </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div>
+    <span>Milan</span>
+    <br>
+    <span>{{response?.current_weather?.time | date:'fullDate'}}</span>
+    <br>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <!-- icon? -->
+    <!-- description? -->
+
+    <span>{{response?.current_weather?.temperature}}</span>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let day of response?.daily?.time">{{day | day}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let maxTemp of response?.daily?.temperature_2m_max">{{maxTemp}}°C</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let minTemp of response?.daily?.temperature_2m_min">{{minTemp}}°C</ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
