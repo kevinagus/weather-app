@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-locations',
@@ -8,16 +9,19 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
   styleUrls: ['./locations.page.scss'],
 })
 export class LocationsPage implements OnInit {
-
   locationForm: FormGroup;
-  isSubmitted = false;
+  isSubmitted: boolean = false;
 
-  constructor(public formBuilder: FormBuilder) { }
+  constructor(
+    public formBuilder: FormBuilder,
+    private locationService: LocationService,
+    public toastController: ToastController
+  ) {}
 
   ngOnInit() {
     this.locationForm = this.formBuilder.group({
-      city:['',[Validators.required, Validators.pattern('^[a-zA-Z]+$')]]
-    })
+      city: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    });
   }
 
   get errorControl() {
@@ -29,7 +33,44 @@ export class LocationsPage implements OnInit {
     if (this.locationForm.valid) {
       //TODO handle user input
       console.log(this.locationForm.value);
+      this.retrieveCityInfos(this.locationForm.value.city);
     }
   }
 
+  private retrieveCityInfos(city: string) {
+    this.locationService.retrieveCityCoordinates(city).subscribe(
+      (res) => {
+        console.log(res);
+      },
+      async (err) => {
+        if (err) {
+          //TODO show alert/toast
+          
+          // const toast = await this.toastController.create({
+          //   message: 'City Not Found',
+          //   position: 'bottom',
+          //   duration: 2000,
+          //   color: 'warning',
+          //   buttons: [
+          //     {
+          //       side: 'start',
+          //       icon: 'star',
+          //       text: 'Favorite',
+          //       handler: () => {
+          //         console.log('Favorite clicked');
+          //       }
+          //     }, {
+          //       text: 'Done',
+          //       role: 'cancel',
+          //       handler: () => {
+          //         console.log('Cancel clicked');
+          //       }
+          //     }
+          //   ]
+          // });
+          // toast.present();
+        }
+      }
+    );
+  }
 }
