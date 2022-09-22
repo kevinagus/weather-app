@@ -8,10 +8,11 @@ import { Observable } from 'rxjs';
 export class WeatherService {
   constructor(private http: HttpClient) {}
 
-  getWeatherData(): Observable<any> {
-    let lat = 52.52;
-    let long = 13.41;
-    const query = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&current_weather=true&timezone=Europe%2FBerlin`;
+  getWeatherData(latlng:number[]): Observable<any> {
+    const lat = latlng[0];
+    const lng = latlng[1];
+    //TODO CHECK SUI VALORI LAT LNG
+    const query = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&current_weather=true&timezone=Europe%2FBerlin`;
     return this.http.get(query);
   }
 }

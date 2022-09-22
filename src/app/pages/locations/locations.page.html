@@ -26,18 +26,9 @@
     </ion-row>
   </form>
   <!-- TODO favourites list component -->
-  <ion-list>
-    <ion-item>
-      <ion-label>Rome</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Berlin</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Madrid</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Paris</ion-label>
+  <ion-list *ngIf="favouriteLocations.length > 0">
+    <ion-item [routerLink]="['/home',location.id]" *ngFor="let location of favouriteLocations">
+      <ion-label>{{location.city}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { StorageLocation } from 'src/app/models/location';
 import { LocationService } from 'src/app/services/location.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -12,15 +14,20 @@ import { StorageService } from 'src/app/services/storage.service';
 export class LocationsPage implements OnInit {
   locationForm: FormGroup;
   isSubmitted: boolean = false;
+  favouriteLocations: StorageLocation[] = [];
 
   constructor(
     public formBuilder: FormBuilder,
     private locationService: LocationService,
     private storageService: StorageService,
     public toastController: ToastController,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.storageService.getLocations().then((res) => {
+      this.favouriteLocations = res;
+    });
     this.locationForm = this.formBuilder.group({
       city: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
     });
@@ -78,16 +85,36 @@ export class LocationsPage implements OnInit {
     );
   }
 
-  async storeCity(response) {
-    if (response && response.capital[0] && response.capitalInfo && response.capitalInfo.latlng) {
-      const favourite = {
-        city: response.capital[0],
-        latlng: response.capitalInfo.latlng,
+  private async storeCity(response) {
+    if (
+      response &&
+      response.capital[0] &&
+      response.capitalInfo &&
+      response.capitalInfo.latlng
+    ) {
+      const favourite = new StorageLocation(
+        this.favouriteLocations.length,
+        response.capital[0],
+        response.capitalInfo.latlng
+      );
+      const cityAdded = await this.storageService.setLocations(favourite);
+      if (cityAdded) {
+        this.resetForm();
+        this.favouriteLocations = await this.storageService.getLocations();
       }
-      const addedFlag = await this.storageService.setLocations(favourite);
       //TODO CITY ADDED OR CITY ALREADY PRESENT
     } else {
       //TODO HANDLE ERROR
     }
+  }
+
+  private resetForm() {
+    this.locationForm.reset();
+    this.isSubmitted = false;
+  }
+
+  onClick(location: StorageLocation) {
+    console.log('clicked');
+    this.router.navigate(['/home']);
   }
 }
