@@ -1,5 +1,5 @@
 export class StorageLocation {
-  id: number;
+  id: string;
   city: string;
   latlng: number[];
   constructor(id, city, latlng) {

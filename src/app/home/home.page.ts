@@ -11,11 +11,15 @@ import { WeatherService } from '../services/weather.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  response: WeatherData;
   private sub;
-  private locationId: number;
+  private locationId: string;
+  response: WeatherData;
   locations: StorageLocation[] = [];
   location: StorageLocation;
+  // slideOpts = {
+  //   initialSlide: 0,
+  //   speed: 400
+  // };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,7 +31,7 @@ export class HomePage {
     this.storageService.getLocations().then((res) => {
       this.locations = res;
       this.sub = this.activatedRoute.paramMap.subscribe((params) => {
-        this.locationId = +params.get('id');
+        this.locationId = params.get('id');
         this.getLocationWeather();
       });
     });
@@ -53,4 +57,8 @@ export class HomePage {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  // onDidChange(event) {
+  //   console.log('on change '+event);
+  // }
 }

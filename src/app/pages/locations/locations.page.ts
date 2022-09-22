@@ -5,6 +5,7 @@ import { ToastController } from '@ionic/angular';
 import { StorageLocation } from 'src/app/models/location';
 import { LocationService } from 'src/app/services/location.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-locations',
@@ -93,7 +94,7 @@ export class LocationsPage implements OnInit {
       response.capitalInfo.latlng
     ) {
       const favourite = new StorageLocation(
-        this.favouriteLocations.length,
+        uuidv4(),
         response.capital[0],
         response.capitalInfo.latlng
       );
@@ -113,8 +114,16 @@ export class LocationsPage implements OnInit {
     this.isSubmitted = false;
   }
 
-  onClick(location: StorageLocation) {
-    console.log('clicked');
-    this.router.navigate(['/home']);
+  async onDeleteClick(id: string) {
+    this.storageService.deleteLocation(id).then(async () => {
+      this.favouriteLocations = await this.storageService.getLocations();
+      const toast = await this.toastController.create({
+        message: 'City Removed',
+        position: 'bottom',
+        duration: 2000,
+        color: 'warning',
+      });
+      toast.present();
+    });
   }
 }
