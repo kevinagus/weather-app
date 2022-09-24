@@ -1,24 +1,32 @@
 <div *ngIf="weatherData">
+  <div class="main">
+    <span class="date">{{weatherData?.current_weather?.time | date:'fullDate'}}</span>
 
-  <span>{{location.city}}</span>
-  <br>
-  <span>{{weatherData?.current_weather?.time | date:'fullDate'}}</span>
-  <br>
+    <weather-icon [size]="'large'" [weathercode]="weatherData?.current_weather?.weathercode">
+    </weather-icon>
 
-  <!-- icon? -->
-  <!-- description? -->
+    <span class="description">{{description}}</span>
 
-  <span>{{weatherData?.current_weather?.temperature}}</span>
+    <span class="temperature">{{weatherData?.current_weather?.temperature}}°C</span>
+    <span class="wind">Wind</span>
+    <span class="wind-direction">{{weatherData?.current_weather?.winddirection}}°</span>
+    <span>{{weatherData?.current_weather?.windspeed}}km/h</span>
+  </div>
 
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let day of weatherData?.daily?.time">{{day | day}}</ion-col>
+      <ion-col class="day" *ngFor="let day of weatherData?.daily?.time">{{day | day}}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col *ngFor="let maxTemp of weatherData?.daily?.temperature_2m_max">{{maxTemp}}°C</ion-col>
+      <ion-col *ngFor="let day of weatherData?.daily?.weathercode">
+        <weather-icon size="small" [weathercode]="day"></weather-icon>
+      </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col *ngFor="let minTemp of weatherData?.daily?.temperature_2m_min">{{minTemp}}°C</ion-col>
+      <ion-col class="maxTemp" *ngFor="let maxTemp of weatherData?.daily?.temperature_2m_max">{{maxTemp}}°C</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="minTemp" *ngFor="let minTemp of weatherData?.daily?.temperature_2m_min">{{minTemp}}°C</ion-col>
     </ion-row>
   </ion-grid>
 </div>

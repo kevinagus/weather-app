@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>My Weather</ion-title>
-    <ion-button [routerLink]="['/locations']">
-      <ion-icon name="add-circle-outline"></ion-icon>
+    <ion-title>{{location?.city}}</ion-title>
+    <ion-button shape="round" fill="clear" class="button-add-location" [routerLink]="['/locations']">
+      <ion-icon name="add-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -13,10 +13,4 @@
   </ion-refresher>
   <home-location-detail [weatherData]="response" [location]="location">
   </home-location-detail>
-  <!-- <ion-slides pager="true" [options]="slideOpts" (ionSlideDidChange)="onDidChange($event)">
-    <ion-slide *ngFor="let loc of locations">
-      <home-location-detail [weatherData]="response" [location]="loc">
-      </home-location-detail>
-    </ion-slide>
-  </ion-slides> -->
 </ion-content>

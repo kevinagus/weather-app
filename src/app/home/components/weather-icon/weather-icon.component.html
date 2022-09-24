@@ -1,0 +1,35 @@
+<div [ngClass]="{'large-icon': size ==='large', 'small-icon': size ==='small'}" [ngSwitch]="weathercode">
+  <ion-icon  *ngSwitchCase="0" name="sunny-outline"></ion-icon>
+
+  <ion-icon *ngSwitchCase="1" name="partly-sunny-outline"></ion-icon> 
+  <ion-icon *ngSwitchCase="2" name="partly-sunny-outline"></ion-icon> 
+  <ion-icon *ngSwitchCase="3" name="partly-sunny-outline"></ion-icon> 
+  <ion-icon *ngSwitchCase="45" name="partly-sunny-outline"></ion-icon> 
+  <ion-icon *ngSwitchCase="48" name="partly-sunny-outline"></ion-icon> 
+
+
+  <ion-icon *ngSwitchCase="51" name="rainy-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="53" name="rainy-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="55" name="rainy-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="56" name="rainy-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="57" name="rainy-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="80" name="rainy-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="81" name="rainy-outline"></ion-icon>
+
+  <ion-icon *ngSwitchCase="61" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="63" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="65" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="66" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="67" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="82" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="95" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="96" name="thunderstorm-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="99" name="thunderstorm-outline"></ion-icon>
+
+  <ion-icon *ngSwitchCase="71" name="snow-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="73" name="snow-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="75" name="snow-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="77" name="snow-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="85" name="snow-outline"></ion-icon>
+  <ion-icon *ngSwitchCase="86" name="snow-outline"></ion-icon>
+</div>

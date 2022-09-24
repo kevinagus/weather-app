@@ -16,10 +16,6 @@ export class HomePage {
   response: WeatherData;
   locations: StorageLocation[] = [];
   location: StorageLocation;
-  // slideOpts = {
-  //   initialSlide: 0,
-  //   speed: 400
-  // };
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -57,8 +53,4 @@ export class HomePage {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-
-  // onDidChange(event) {
-  //   console.log('on change '+event);
-  // }
 }

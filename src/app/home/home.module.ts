@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { DayPipe } from '../pipes/day.pipe';
 import { LocationDetailComponent } from './components/location-detail/location-detail.component';
+import { WeatherIconComponent } from './components/weather-icon/weather-icon.component';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { LocationDetailComponent } from './components/location-detail/location-d
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, DayPipe, LocationDetailComponent],
+  declarations: [HomePage, DayPipe, LocationDetailComponent, WeatherIconComponent],
   exports: [
     DayPipe
   ]
