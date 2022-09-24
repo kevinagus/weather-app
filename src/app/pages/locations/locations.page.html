@@ -1,17 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Handle Cities</ion-title>
-    <ion-button [routerLink]="['/home']">
-      <ion-icon name="arrow-back-outline"></ion-icon>
-    </ion-button>
+    <ion-title>Favourites</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="light">
   <form [formGroup]="locationForm" (ngSubmit)="submitForm()" novalidate>
-    <ion-item lines="full">
-      <ion-label position="floating">Enter City</ion-label>
-      <ion-input formControlName="city" type="text" required></ion-input>
+    <ion-item color="ligth" lines="full">
+      <ion-searchbar show-clear-button="focus" placeholder="Enter City" formControlName="city"></ion-searchbar>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.city.errors?.required">
       City is required.
@@ -19,14 +15,9 @@
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.city.errors?.pattern">
       Please provide valid city.
     </span>
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" color="danger" expand="block">Add</ion-button>
-      </ion-col>
-    </ion-row>
+    <ion-button class="add-button" type="submit" color="tertiary" expand="block">Add</ion-button>
   </form>
-  <!-- TODO favourites list component -->
-  <ion-list *ngIf="favouriteLocations.length > 0">
+  <ion-list [inset]="true" *ngIf="favouriteLocations.length > 0">
     <ion-item-sliding *ngFor="let location of favouriteLocations">
       <ion-item [routerLink]="['/home',location.id]">
         <ion-label>{{location.city}}</ion-label>
