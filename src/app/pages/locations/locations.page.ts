@@ -57,30 +57,13 @@ export class LocationsPage implements OnInit {
       },
       async (err) => {
         if (err) {
-          //TODO show alert/toast
-          // const toast = await this.toastController.create({
-          //   message: 'City Not Found',
-          //   position: 'bottom',
-          //   duration: 2000,
-          //   color: 'warning',
-          //   buttons: [
-          //     {
-          //       side: 'start',
-          //       icon: 'star',
-          //       text: 'Favorite',
-          //       handler: () => {
-          //         console.log('Favorite clicked');
-          //       }
-          //     }, {
-          //       text: 'Done',
-          //       role: 'cancel',
-          //       handler: () => {
-          //         console.log('Cancel clicked');
-          //       }
-          //     }
-          //   ]
-          // });
-          // toast.present();
+          const toast = await this.toastController.create({
+            message: 'City Not Found',
+            position: 'bottom',
+            duration: 2000,
+            color: 'danger',
+          });
+          toast.present();
         }
       }
     );
@@ -102,6 +85,13 @@ export class LocationsPage implements OnInit {
       if (cityAdded) {
         this.resetForm();
         this.favouriteLocations = await this.storageService.getLocations();
+        const toast = await this.toastController.create({
+          message: 'City Added',
+          position: 'bottom',
+          duration: 2000,
+          color: 'success',
+        });
+        toast.present();
       }
       //TODO CITY ADDED OR CITY ALREADY PRESENT
     } else {
@@ -121,7 +111,7 @@ export class LocationsPage implements OnInit {
         message: 'City Removed',
         position: 'bottom',
         duration: 2000,
-        color: 'warning',
+        color: 'success',
       });
       toast.present();
     });

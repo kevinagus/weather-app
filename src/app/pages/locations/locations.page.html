@@ -17,9 +17,9 @@
     </span>
     <ion-button class="add-button" type="submit" color="tertiary" expand="block">Add</ion-button>
   </form>
-  <ion-list [inset]="true" *ngIf="favouriteLocations.length > 0">
+  <ion-list lines="full" [inset]="true" *ngIf="favouriteLocations.length > 0">
     <ion-item-sliding *ngFor="let location of favouriteLocations">
-      <ion-item [routerLink]="['/home',location.id]">
+      <ion-item color="tertiary" [routerLink]="['/home',location.id]">
         <ion-label>{{location.city}}</ion-label>
       </ion-item>
       <ion-item-options side="start">

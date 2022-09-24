@@ -1,9 +1,9 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="'Back'" [routerLink]="['/locations']"></ion-back-button>
+    </ion-buttons>
     <ion-title>{{location?.city}}</ion-title>
-    <ion-button shape="round" fill="clear" class="button-add-location" [routerLink]="['/locations']">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-button>
   </ion-toolbar>
 </ion-header>
 
