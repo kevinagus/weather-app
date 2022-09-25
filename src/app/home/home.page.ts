@@ -11,7 +11,8 @@ import { WeatherService } from '../services/weather.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  private sub;
+  private routeSub;
+  private weatherSub;
   private locationId: string;
   response: WeatherData;
   locations: StorageLocation[] = [];
@@ -26,7 +27,7 @@ export class HomePage {
   ngOnInit() {
     this.storageService.getLocations().then((res) => {
       this.locations = res;
-      this.sub = this.activatedRoute.paramMap.subscribe((params) => {
+      this.routeSub = this.activatedRoute.paramMap.subscribe((params) => {
         this.locationId = params.get('id');
         this.getLocationWeather();
       });
@@ -35,7 +36,9 @@ export class HomePage {
 
   private getLocationWeather() {
     this.location = this.locations.find((l) => l.id === this.locationId);
-    this.weatherAPI.getWeatherData(this.location.latlng).subscribe(
+    this.weatherSub = this.weatherAPI
+      .getWeatherData(this.location.latlng)
+      .subscribe(
       (res) => {
         this.response = res;
       },
@@ -51,6 +54,7 @@ export class HomePage {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.routeSub.unsubscribe();
+    this.weatherSub.unsubscribe()
   }
 }

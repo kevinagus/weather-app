@@ -10,7 +10,6 @@ export class StorageService {
 
   async getLocations(): Promise<StorageLocation[]> {
     const { value } = await Preferences.get({ key: 'favourites' });
-    console.log(`Saved Locations ${value}`);
     return value ? JSON.parse(value) : [];
   }
 

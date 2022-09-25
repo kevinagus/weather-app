@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="light">
     <ion-title>Favourites</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="light">
   <form [formGroup]="locationForm" (ngSubmit)="submitForm()" novalidate>
-    <ion-item color="ligth" lines="full">
+    <ion-item color="light" lines="full">
       <ion-searchbar show-clear-button="focus" placeholder="Enter City" formControlName="city"></ion-searchbar>
     </ion-item>
     <span class="error ion-padding" *ngIf="isSubmitted && errorControl.city.errors?.required">

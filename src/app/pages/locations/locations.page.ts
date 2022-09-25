@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { StorageLocation } from 'src/app/models/location';
 import { LocationService } from 'src/app/services/location.service';
@@ -13,16 +12,23 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['./locations.page.scss'],
 })
 export class LocationsPage implements OnInit {
+  private coordinatesSub;
   locationForm: FormGroup;
   isSubmitted: boolean = false;
   favouriteLocations: StorageLocation[] = [];
+  private readonly CITY_REMOVED = 'City Removed';
+  private readonly CITY_ADDED = 'City Added';
+  private readonly CITY_NOT_ADDED = 'City Not Added';
+  private readonly CITY_NOT_FOUND = 'City Not Found';
+  private readonly TOAST_SUCCESS = 'success';
+  private readonly TOAST_WARNING = 'warning';
+  private readonly TOAST_DANGER = 'danger';
 
   constructor(
     public formBuilder: FormBuilder,
     private locationService: LocationService,
     private storageService: StorageService,
-    public toastController: ToastController,
-    private router: Router
+    public toastController: ToastController
   ) {}
 
   ngOnInit() {
@@ -41,32 +47,23 @@ export class LocationsPage implements OnInit {
   submitForm() {
     this.isSubmitted = true;
     if (this.locationForm.valid) {
-      //TODO handle user input
-      console.log(this.locationForm.value);
       this.retrieveCityInfos(this.locationForm.value.city);
     }
   }
 
   private retrieveCityInfos(city: string) {
-    this.locationService.retrieveCityCoordinates(city).subscribe(
-      (res) => {
-        console.log(res);
-        if (res && res.length === 1) {
-          return this.storeCity(res[0]);
+    this.coordinatesSub = this.locationService
+      .retrieveCityCoordinates(city)
+      .subscribe(
+        (res) => {
+          if (res && res.length === 1) {
+            return this.storeCity(res[0]);
+          }
+        },
+        async () => {
+          this.showToastMessage(this.CITY_NOT_FOUND, this.TOAST_DANGER);
         }
-      },
-      async (err) => {
-        if (err) {
-          const toast = await this.toastController.create({
-            message: 'City Not Found',
-            position: 'bottom',
-            duration: 2000,
-            color: 'danger',
-          });
-          toast.present();
-        }
-      }
-    );
+      );
   }
 
   private async storeCity(response) {
@@ -85,17 +82,10 @@ export class LocationsPage implements OnInit {
       if (cityAdded) {
         this.resetForm();
         this.favouriteLocations = await this.storageService.getLocations();
-        const toast = await this.toastController.create({
-          message: 'City Added',
-          position: 'bottom',
-          duration: 2000,
-          color: 'success',
-        });
-        toast.present();
+        this.showToastMessage(this.CITY_ADDED, this.TOAST_SUCCESS);
       }
-      //TODO CITY ADDED OR CITY ALREADY PRESENT
     } else {
-      //TODO HANDLE ERROR
+      this.showToastMessage(this.CITY_NOT_ADDED, this.TOAST_WARNING);
     }
   }
 
@@ -107,13 +97,21 @@ export class LocationsPage implements OnInit {
   async onDeleteClick(id: string) {
     this.storageService.deleteLocation(id).then(async () => {
       this.favouriteLocations = await this.storageService.getLocations();
-      const toast = await this.toastController.create({
-        message: 'City Removed',
-        position: 'bottom',
-        duration: 2000,
-        color: 'success',
-      });
-      toast.present();
+      this.showToastMessage(this.CITY_REMOVED, this.TOAST_SUCCESS);
     });
+  }
+
+  async showToastMessage(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      position: 'bottom',
+      duration: 2000,
+      color,
+    });
+    toast.present();
+  }
+
+  ngOnDestroy() {
+    this.coordinatesSub.unsubscribe();
   }
 }
